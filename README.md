@@ -62,8 +62,11 @@ A modern, responsive web application for checking JioMart coupon codes with an i
 5. Watch real-time results as each coupon is processed
 
 ## 📱 **Screenshots**
+<img width="1447" height="802" alt="img1" src="https://github.com/user-attachments/assets/83a13f22-2445-41f8-822e-505168ed6987" />
 
+<img width="1592" height="819" alt="img2" src="https://github.com/user-attachments/assets/c1ce6047-cbbf-4466-a4a1-d6d1d99c4745" />
 
+<img width="1460" height="790" alt="img3" src="https://github.com/user-attachments/assets/a481e166-2043-4ded-bdbd-bd37da86a3ee" />
 
 ### **To DO**
 - Listen to users feedback for bug fixes
@@ -84,3 +87,4 @@ Contributions are welcome! Please feel free to submit issues, feature requests, 
 ---
 
 **Made with ❤️ for the community**
+
