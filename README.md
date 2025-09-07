@@ -1,6 +1,7 @@
 # 🎫 JioMart Coupon Generator and Checker
 
 A modern, responsive web application for checking JioMart coupon codes with an intuitive user interface and powerful features.
+Easy to use for beginners. Please make sure to star the repo for more features including faster checking of codes.
 
 ![JioMart Coupon Checker](https://img.shields.io/badge/Status-Live-brightgreen)
 ![Frontend](https://img.shields.io/badge/Frontend-HTML%20%7C%20CSS%20%7C%20JavaScript-blue)
@@ -31,26 +32,26 @@ A modern, responsive web application for checking JioMart coupon codes with an i
 
 ## 🚀 **How to Use**
 
-### **Method 1: Single Manual Checker**
+### **Method 1: Self Manual Checker**
 1. Navigate to the "Single Manual Checker" tab
 2. Enter your JioMart credentials:
    - User ID
    - Auth Token
    - Cart ID
    - PIN Code
-3. Enter the coupon code you want to test
-4. Click "Check Coupon" and get instant results
+3. Enter the coupon code list you want to test
+4. Click "Check Coupons" and get instant results
 
-### **Method 2: Session Data Parser - EASY RECOMMENDED**
+### **Method 2: Session Data Parser - EASY RECOMMENDED 🟩⚡**
 1. Go to the "Get Session Data" tab
 2. Follow the simple steps:
    - Visit [JioMart Cart Page](https://www.jiomart.com/checkout/cart)
-   - Ensure you have items worth ₹200+ in your cart
+   - Ensure you have items worth ₹200+ in your cart which are eligible for coupon.
    - Open browser console (F12)
-   - Copy and paste the provided script
+   - Copy and paste the provided script and press enter.
    - Copy the JSON output
 3. Paste the session data in the text area
-4. Enter your coupon code and check instantly
+4. Enter your coupon code list and check instantly
 
 ### **Method 3: Bulk Generator & Checker**
 1. Switch to the "Bulk Generator & Checker" tab
@@ -69,7 +70,7 @@ A modern, responsive web application for checking JioMart coupon codes with an i
 <img width="1460" height="790" alt="img3" src="https://github.com/user-attachments/assets/a481e166-2043-4ded-bdbd-bd37da86a3ee" />
 
 ### **To DO**
-- Listen to users feedback for bug fixes
+- Listen to users feedback for bug fixes. Feel Free to ask help or report a problem by opening an issue.
 - Bypass rate Limit 
 - Proxy support
 - Multiple session at same time
@@ -87,4 +88,5 @@ Contributions are welcome! Please feel free to submit issues, feature requests, 
 ---
 
 **Made with ❤️ for the community**
+
 
