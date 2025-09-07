@@ -1,6 +1,7 @@
 (function() {
     const authtoken = localStorage.getItem("authtoken");
     const userid = localStorage.getItem("userid");
+    const pin = localStorage.getItem('nms_mgo_pincode');
 
     
     const cartString = localStorage.getItem("cart_info");
@@ -18,8 +19,10 @@
         'userid': userid,
         'authtoken': authtoken,
         'cart_id': cartId,
+        'pin': pin,
     };
 
     console.log(JSON.stringify(result, null, 2));
 
 })();
+
