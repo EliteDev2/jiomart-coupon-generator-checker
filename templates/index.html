@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JioMart Coupon Checker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .method-tabs {
+            margin-bottom: 2rem;
+        }
+        
+        .nav-pills .nav-link {
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-pills .nav-link.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-outline-secondary {
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+        }
+        
+        .results-section {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .table thead th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 1rem;
+        }
+        
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-color: #e9ecef;
+        }
+        
+        .status-valid {
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .status-invalid {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        
+        .status-warning {
+            color: #ffc107;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            color: #ffc107;
+            font-weight: 600;
+        }
+        
+        .status-error {
+            color: #6c757d;
+            font-weight: 600;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .spinner-border {
+            color: #667eea;
+        }
+        
+        .session-script {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-container">
+            <div class="header">
+                <h1><i class="fas fa-ticket-alt"></i> JioMart Coupon Checker</h1>
+                <p>Check your JioMart coupon codes with ease</p>
+            </div>
+
+            <!-- Method Selection Tabs -->
+            <ul class="nav nav-pills method-tabs justify-content-center" id="methodTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="manual-tab" data-bs-toggle="pill" data-bs-target="#manual" type="button" role="tab">
+                        <i class="fas fa-keyboard"></i> Self Manual checker
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="session-tab" data-bs-toggle="pill" data-bs-target="#session" type="button" role="tab">
+                        <i class="fas fa-code"></i> Get Session Data
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="generator-tab" data-bs-toggle="pill" data-bs-target="#generator" type="button" role="tab">
+                        <i class="fas fa-magic"></i> Bulk Generator & Checker
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="methodTabsContent">
+                <!-- Manual Entry Tab -->
+                <div class="tab-pane fade show active" id="manual" role="tabpanel">
+                    <div class="form-section">
+                        <h4 class="mb-4"><i class="fas fa-edit"></i> Enter Your Details</h4>
+                        <form id="manualForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">User ID</label>
+                                <input type="text" class="form-control" id="manualUserId" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Auth Token</label>
+                                <input type="text" class="form-control" id="manualAuthToken" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Cart ID</label>
+                                <input type="text" class="form-control" id="manualCartId" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">PIN Code</label>
+                                <input type="text" class="form-control" id="manualPin" required placeholder="Enter your PIN code">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Coupon Codes (one per line)</label>
+                                <textarea class="form-control" id="manualCouponCode" rows="3" required placeholder="Enter one or more coupon codes, each on a new line"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search"></i> Check Coupon
+                                </button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Session Data Tab -->
+                <div class="tab-pane fade" id="session" role="tabpanel">
+                    <div class="form-section">
+                        <h4 class="mb-4"><i class="fas fa-code"></i> Session Data Method</h4>
+                        
+                        <!-- Get Session Script Section -->
+                        <div class="mb-4">
+                            <h5><i class="fas fa-info-circle"></i> How to get your session data:</h5>
+                            <ol class="mb-3">
+                                <li>Go to <a href="https://www.jiomart.com/checkout/cart" target="_blank">JioMart Cart Page</a></li>
+                                <li>Make sure you have items worth ₹200+ in your cart</li>
+                                <li>Open browser console (F12)</li>
+                                <li>Copy and paste the script below, then press Enter</li>
+                                <li>Copy the JSON output and paste it in the text area below</li>
+                            </ol>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Get Session Script:</label>
+                                <div class="session-script" id="sessionScript">
+(function() {
+    const authtoken = localStorage.getItem("authtoken");
+    const userid = localStorage.getItem("userid");
+    const pin = localStorage.getItem('nms_mgo_pincode');
+
+    const cartString = localStorage.getItem("cart_info");
+    const regex = /"id":(\d+)/;
+    const match = regex.exec(cartString);
+    var cartId = ''
+    if (match && match.length > 1) {
+        cartId = match[1];
+    } else {
+        console.log("No cart ID found in the string. make sure you execute this script in cart page with products add of amount over 200 Ruppes");
+    }
+
+    const result = {
+        'userid': userid,
+        'authtoken': authtoken,
+        'cart_id': cartId,
+        'pin': pin,
+    };
+
+    console.log(JSON.stringify(result, null, 2));
+
+})();
+                                </div>
+                                <button class="btn copy-btn mt-2" onclick="copySessionScript(event)">
+                                    <i class="fas fa-copy"></i> Copy Script
+                                </button>
+                            </div>
+                        </div>
+
+                        <form id="sessionForm">
+                            <div class="mb-3">
+                                <label class="form-label">Paste Session Data (JSON):</label>
+                                <textarea class="form-control" id="sessionData" rows="6" placeholder='Paste the JSON output from the script here, e.g.:
+{
+  "userid": "your_user_id",
+  "authtoken": "your_auth_token", 
+  "cart_id": "your_cart_id",
+  "pin": "your_pin"
+}'></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Coupon Codes (one per line)</label>
+                                <textarea class="form-control" id="sessionCouponCode" rows="3" required placeholder="Enter one or more coupon codes, each on a new line"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Check Coupon
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Generator & Checker Tab -->
+                <div class="tab-pane fade" id="generator" role="tabpanel">
+                    <div class="form-section">
+                        <h4 class="mb-4"><i class="fas fa-magic"></i> Generate & Check Multiple Coupons</h4>
+                        
+                        <!-- Input Method Selection for Generator -->
+                        <div class="mb-4">
+                            <h5>Choose Input Method:</h5>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="generatorInputMethod" id="generatorManual" value="manual" checked>
+                                <label class="btn btn-outline-primary" for="generatorManual">Manual Entry</label>
+                                
+                                <input type="radio" class="btn-check" name="generatorInputMethod" id="generatorSession" value="session">
+                                <label class="btn btn-outline-primary" for="generatorSession">Session Data</label>
+                            </div>
+                        </div>
+
+                        <!-- Manual Entry for Generator -->
+                        <div id="generatorManualInput">
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">User ID</label>
+                                    <input type="text" class="form-control" id="genUserId">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Auth Token</label>
+                                    <input type="text" class="form-control" id="genAuthToken">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Cart ID</label>
+                                    <input type="text" class="form-control" id="genCartId">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">PIN Code</label>
+                                    <input type="text" class="form-control" id="genPin" placeholder="Enter PIN code">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Session Data for Generator -->
+                        <div id="generatorSessionInput" style="display: none;">
+                            <div class="mb-3">
+                                <label class="form-label">Paste Session Data (JSON):</label>
+                                <textarea class="form-control" id="genSessionData" rows="4" placeholder='Paste the JSON output from the session script here'></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Generator Options -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">How many coupons to generate?</label>
+                                <input type="number" class="form-control" id="couponCount" value="10" min="1" max="50">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Optional Prefix (≤ 10 chars)</label>
+                                <input type="text" class="form-control" id="couponPrefix" placeholder="e.g., 1F2G">
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-primary w-100" id="generateAndCheckBtn">
+                            <i class="fas fa-magic"></i> Generate & Check Coupons
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <h4 class="mb-4"><i class="fas fa-list-alt"></i> Results</h4>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Checking coupon...</p>
+                </div>
+
+                <div id="results" style="display: none;">
+                    <div class="alert alert-info" id="resultAlert">
+                        <i class="fas fa-info-circle"></i> <span id="resultMessage"></span>
+                    </div>
+                </div>
+
+                <!-- Generator Results Table -->
+                <div id="generatorResults" style="display: none;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Coupon Code</th>
+                                    <th>Status</th>
+                                    <th>Message</th>
+                                </tr>
+                            </thead>
+                            <tbody id="generatorResultsTable">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Copy session script to clipboard
+        function copySessionScript(event) {
+            const scriptText = document.getElementById('sessionScript').textContent;
+            navigator.clipboard.writeText(scriptText).then(function() {
+                // Show success feedback
+                const btn = event.target.closest('button');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.classList.add('btn-success');
+                btn.classList.remove('copy-btn');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('copy-btn');
+                }, 2000);
+            }).catch(function(err) {
+                alert('Failed to copy script. Please copy manually.');
+            });
+        }
+
+        // Show loading state
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+        }
+
+        // Hide loading state
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+        }
+
+        // Show result
+        function showResult(status, message, couponCode) {
+            hideLoading();
+            const alert = document.getElementById('resultAlert');
+            const messageEl = document.getElementById('resultMessage');
+            
+            // Remove existing status classes
+            alert.classList.remove('alert-success', 'alert-danger', 'alert-warning', 'alert-info');
+            
+            if (status === 'success') {
+                alert.classList.add('alert-success');
+                messageEl.innerHTML = `<strong>✅ Valid Coupon!</strong> Code: <code>${couponCode}</code> - ${message}`;
+            } else if (status === 'warning') {
+                alert.classList.add('alert-warning');
+                messageEl.innerHTML = `<strong>⚠️ Warning</strong> Code: <code>${couponCode}</code> - ${message}`;
+            } else if (status === 'fail') {
+                alert.classList.add('alert-danger');
+                messageEl.innerHTML = `<strong>❌ Invalid Coupon</strong> Code: <code>${couponCode}</code> - ${message}`;
+            } else {
+                alert.classList.add('alert-warning');
+                messageEl.innerHTML = `<strong>⚠️ Error</strong> - ${message}`;
+            }
+        }
+
+        // Show countdown in a table row
+        async function showCountdown(row, duration) {
+            if (!row) return;
+            const originalStatus = row.cells[1].innerHTML;
+            const originalMessage = row.cells[2].innerHTML;
+            
+            for (let countdown = duration; countdown > 0; countdown--) {
+                row.cells[1].innerHTML = `<span class="status-pending">⏳ Waiting...</span>`;
+                row.cells[2].innerHTML = `Next check in ${countdown} seconds...`;
+                await sleep(1000);
+            }
+            row.cells[1].innerHTML = originalStatus;
+            row.cells[2].innerHTML = originalMessage;
+        }
+
+        // Manual form submission
+        document.getElementById('manualForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const userId = document.getElementById('manualUserId').value;
+            const authToken = document.getElementById('manualAuthToken').value;
+            const cartId = document.getElementById('manualCartId').value;
+            const pin = document.getElementById('manualPin').value;
+            const couponCodesText = document.getElementById('manualCouponCode').value;
+            
+            if (!userId || !authToken || !cartId || !pin || !couponCodesText) {
+                showResult('error', 'Please fill in all fields');
+                return;
+            }
+            
+            const coupons = couponCodesText.split('\n').map(c => c.trim()).filter(c => c);
+            if (coupons.length === 0) {
+                showResult('error', 'Please enter at least one coupon code.');
+                return;
+            }
+
+            const userData = { userid: userId, authtoken: authToken, cart_id: cartId, pin: pin };
+            await processCoupons(coupons, userData);
+        });
+
+        // Session form submission
+        document.getElementById('sessionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const sessionData = document.getElementById('sessionData').value;
+            const couponCodesText = document.getElementById('sessionCouponCode').value;
+            
+            if (!sessionData || !couponCodesText) {
+                showResult('error', 'Please provide both session data and coupon code');
+                return;
+            }
+
+            const coupons = couponCodesText.split('\n').map(c => c.trim()).filter(c => c);
+            if (coupons.length === 0) {
+                showResult('error', 'Please enter at least one coupon code.');
+                return;
+            }
+
+            let userData = {};
+            try {
+                userData = { session_data: sessionData };
+            } catch (err) {
+                showResult('error', 'Invalid session data format');
+                return;
+            }
+
+            await processCoupons(coupons, userData);
+        });
+
+        // Function to process a list of coupons
+        async function processCoupons(coupons, userData) {
+            // Show results table
+            document.getElementById('generatorResults').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
+            const tableBody = document.getElementById('generatorResultsTable');
+            tableBody.innerHTML = '';
+
+            // Add rows for all coupons
+            coupons.forEach(coupon => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${coupon}</td>
+                    <td class="status-pending">⏳ Pending</td>
+                    <td></td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            // Process each coupon individually
+            for (let i = 0; i < coupons.length; i++) {
+                const coupon = coupons[i];
+                const row = [...tableBody.rows].find(r => r.cells[0].textContent === coupon);
+                
+                if (!row) continue;
+
+                // Update status to "Checking..."
+                row.cells[1].innerHTML = '<span class="status-pending">🔄 Checking...</span>';
+                row.cells[2].innerHTML = 'Processing...';
+
+                try {
+                    const requestData = { code: coupon, ...userData };
+
+                    const res = await fetch('/api/check_code', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(requestData)
+                    });
+
+                    const result = await res.json();
+
+                    // Update row with result
+                    if (result.status === 'success') {
+                        row.cells[1].innerHTML = '<span class="status-valid">✅ Valid</span>';
+                        row.cells[2].innerHTML = 'Discount applied!';
+                    } else if (result.status === 'warning') {
+                        row.cells[1].innerHTML = '<span class="status-warning">⚠️ Warning</span>';
+                        row.cells[2].innerHTML = result.reason || 'Unknown warning';
+                    } else {
+                        row.cells[1].innerHTML = '<span class="status-invalid">❌ Invalid</span>';
+                        row.cells[2].innerHTML = result.reason || 'Unknown error';
+                    }
+
+                } catch (err) {
+                    row.cells[1].innerHTML = '<span class="status-error">⚠️ Error</span>';
+                    row.cells[2].innerHTML = err.message;
+                }
+
+                // Wait before next coupon (except for the last one)
+                if (i < coupons.length - 1) {
+                    const nextRow = tableBody.rows[i + 1];
+                    await showCountdown(nextRow, 12);
+                }
+            }
+        }
+
+        // Auto-parse session data when pasted
+        document.getElementById('sessionData').addEventListener('paste', function(e) {
+            setTimeout(() => {
+                const text = e.target.value;
+                try {
+                    const data = JSON.parse(text);
+                    if (data.userid && data.authtoken && data.cart_id) {
+                        // Show success feedback
+                        e.target.classList.add('is-valid');
+                        e.target.classList.remove('is-invalid');
+                    } else {
+                        e.target.classList.add('is-invalid');
+                        e.target.classList.remove('is-valid');
+                    }
+                } catch (err) {
+                    e.target.classList.add('is-invalid');
+                    e.target.classList.remove('is-valid');
+                }
+            }, 100);
+        });
+
+        // Generator functionality
+        function shuffle(arr) {
+            return arr.sort(() => Math.random() - 0.5);
+        }
+
+        function generateCoupon(prefix = "") {
+            const digits = "0123456789".split("");
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+            let code = prefix.slice(0, 10);
+
+            const usedDigits = new Set([...code].filter(ch => /\d/.test(ch)));
+            const usedLetters = new Set([...code].filter(ch => /[A-Z]/.test(ch)));
+
+            while (code.length < 10) {
+                if (code.length % 2 === 0) {
+                    const availableDigits = digits.filter(d => !usedDigits.has(d));
+                    if (availableDigits.length === 0) throw new Error("Ran out of unique digits");
+                    const digit = shuffle(availableDigits)[0];
+                    code += digit;
+                    usedDigits.add(digit);
+                } else {
+                    const availableLetters = letters.filter(l => !usedLetters.has(l));
+                    if (availableLetters.length === 0) throw new Error("Ran out of unique letters");
+                    const letter = shuffle(availableLetters)[0];
+                    code += letter;
+                    usedLetters.add(letter);
+                }
+            }
+
+            return code;
+        }
+
+        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        // Toggle generator input method
+        document.querySelectorAll('input[name="generatorInputMethod"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const manualInput = document.getElementById('generatorManualInput');
+                const sessionInput = document.getElementById('generatorSessionInput');
+                
+                if (this.value === 'manual') {
+                    manualInput.style.display = 'block';
+                    sessionInput.style.display = 'none';
+                } else {
+                    manualInput.style.display = 'none';
+                    sessionInput.style.display = 'block';
+                }
+            });
+        });
+
+        // Generator form submission
+        document.getElementById('generateAndCheckBtn').addEventListener('click', async function() {
+            const inputMethod = document.querySelector('input[name="generatorInputMethod"]:checked').value;
+            const count = parseInt(document.getElementById('couponCount').value);
+            const prefix = document.getElementById('couponPrefix').value.toUpperCase();
+
+            let userData = {};
+
+            if (inputMethod === 'manual') {
+                const userId = document.getElementById('genUserId').value;
+                const authToken = document.getElementById('genAuthToken').value;
+                const cartId = document.getElementById('genCartId').value;
+                const pin = document.getElementById('genPin').value;
+
+                if (!userId || !authToken || !cartId || !pin) {
+                    showResult('error', 'Please fill in all manual entry fields');
+                    return;
+                }
+
+                userData = { userid: userId, authtoken: authToken, cart_id: cartId, pin: pin };
+            } else {
+                const sessionData = document.getElementById('genSessionData').value;
+                if (!sessionData) {
+                    showResult('error', 'Please provide session data');
+                    return;
+                }
+
+                try {
+                    const parsedData = JSON.parse(sessionData);
+                    userData = parsedData;
+                } catch (err) {
+                    showResult('error', 'Invalid session data format');
+                    return;
+                }
+            }
+
+            // Generate unique coupons
+            const generated = new Set();
+            const coupons = [];
+
+            while (coupons.length < count) {
+                try {
+                    let coupon = generateCoupon(prefix);
+                    if (!generated.has(coupon)) {
+                        generated.add(coupon);
+                        coupons.push(coupon);
+                    }
+                } catch (err) {
+                    showResult('error', 'Failed to generate unique coupons: ' + err.message);
+                    return;
+                }
+            }
+
+            await processCoupons(coupons, userData);
+        });
+    </script>
+</body>
+</html>
