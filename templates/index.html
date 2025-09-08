@@ -511,11 +511,11 @@
         document.getElementById('manualForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const userId = document.getElementById('manualUserId').value;
-            const authToken = document.getElementById('manualAuthToken').value;
-            const cartId = document.getElementById('manualCartId').value;
-            const pin = document.getElementById('manualPin').value;
-            const couponCodesText = document.getElementById('manualCouponCode').value;
+            const userId = document.getElementById('manualUserId').value.trim();
+            const authToken = document.getElementById('manualAuthToken').value.trim();
+            const cartId = document.getElementById('manualCartId').value.trim();
+            const pin = document.getElementById('manualPin').value.trim();
+            const couponCodesText = document.getElementById('manualCouponCode').value.trim();
             
             if (!userId || !authToken || !cartId || !pin || !couponCodesText) {
                 showResult('error', 'Please fill in all fields');
@@ -536,8 +536,8 @@
         document.getElementById('sessionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const sessionData = document.getElementById('sessionData').value;
-            const couponCodesText = document.getElementById('sessionCouponCode').value;
+            const sessionData = document.getElementById('sessionData').value.trim();
+            const couponCodesText = document.getElementById('sessionCouponCode').value.trim();
             
             if (!sessionData || !couponCodesText) {
                 showResult('error', 'Please provide both session data and coupon code');
@@ -709,10 +709,10 @@
             let userData = {};
 
             if (inputMethod === 'manual') {
-                const userId = document.getElementById('genUserId').value;
-                const authToken = document.getElementById('genAuthToken').value;
-                const cartId = document.getElementById('genCartId').value;
-                const pin = document.getElementById('genPin').value;
+                const userId = document.getElementById('genUserId').value.trim();
+                const authToken = document.getElementById('genAuthToken').value.trim();
+                const cartId = document.getElementById('genCartId').value.trim();
+                const pin = document.getElementById('genPin').value.trim();
 
                 if (!userId || !authToken || !cartId || !pin) {
                     showResult('error', 'Please fill in all manual entry fields');
@@ -721,7 +721,7 @@
 
                 userData = { userid: userId, authtoken: authToken, cart_id: cartId, pin: pin };
             } else {
-                const sessionData = document.getElementById('genSessionData').value;
+                const sessionData = document.getElementById('genSessionData').value.trim();
                 if (!sessionData) {
                     showResult('error', 'Please provide session data');
                     return;
