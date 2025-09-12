@@ -8,7 +8,7 @@ Easy to use for beginners. Please make sure to star the repo for more features i
 ![UI](https://img.shields.io/badge/UI-Bootstrap%205%20%7C%20Font%20Awesome-orange)
 
 ## 📎Temporary Link - https://unrelieving-anticritical-janiya.ngrok-free.app/
-# Status - Live 🟩⚡
+# Status - Live 🟩⚡- SUPPORTS NEW T SEREIES AND 199 MOV COUPONS 🔥🔥
 ## ✨ Features
 
 ### 🎯 **Multiple Input Methods**
