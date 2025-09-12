@@ -199,6 +199,8 @@
             <div class="header">
                 <h1><i class="fas fa-ticket-alt"></i> JioMart Coupon Checker</h1>
                 <p>Check your JioMart coupon codes with ease</p>
+                <p>Support for new T series and 199 Ruppes coupon</p>
+
             </div>
 
             <!-- Method Selection Tabs -->
@@ -384,8 +386,8 @@
                                 <input type="number" class="form-control" id="couponCount" value="10" min="1" max="50">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Optional Prefix (≤ 10 chars)</label>
-                                <input type="text" class="form-control" id="couponPrefix" placeholder="e.g., 1F2G">
+                                <label class="form-label">Optional Prefix (≤ 11 chars)</label>
+                                <input type="text" class="form-control" id="couponPrefix" placeholder="e.g., T09">
                             </div>
                         </div>
 
@@ -606,7 +608,7 @@
                     // Update row with result
                     if (result.status === 'success') {
                         row.cells[1].innerHTML = '<span class="status-valid">✅ Valid</span>';
-                        row.cells[2].innerHTML = 'Discount applied!';
+                        row.cells[2].innerHTML = result.reason || 'Discount applied!';
                     } else if (result.status === 'warning') {
                         row.cells[1].innerHTML = '<span class="status-warning">⚠️ Warning</span>';
                         row.cells[2].innerHTML = result.reason || 'Unknown warning';
@@ -626,6 +628,22 @@
                     await showCountdown(nextRow, 12);
                 }
             }
+            // Sort the table rows
+            const rows = Array.from(tableBody.rows);
+            const statusOrder = {
+                '✅ Valid': 1,
+                '⚠️ Warning': 2,
+                '❌ Invalid': 3,
+                '⚠️ Error': 4,
+                '🔄 Checking...': 5,
+                '⏳ Pending': 6
+            };
+            rows.sort((a, b) => {
+                const statusA = statusOrder[a.cells[1].textContent.trim()] || 99;
+                const statusB = statusOrder[b.cells[1].textContent.trim()] || 99;
+                return statusA - statusB;
+            });
+            rows.forEach(row => tableBody.appendChild(row));
         }
 
         // Auto-parse session data when pasted
@@ -655,28 +673,23 @@
         }
 
         function generateCoupon(prefix = "") {
-            const digits = "0123456789".split("");
-            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+            const digits = "0123456789";
+            let code;
+            const requiredLength = 11;
 
-            let code = prefix.slice(0, 10);
+            if (prefix) {
+                code = prefix.toUpperCase();
+            } else {
+                code = "T";
+            }
 
-            const usedDigits = new Set([...code].filter(ch => /\d/.test(ch)));
-            const usedLetters = new Set([...code].filter(ch => /[A-Z]/.test(ch)));
+            while (code.length < requiredLength) {
+                code += digits.charAt(Math.floor(Math.random() * digits.length));
+            }
 
-            while (code.length < 10) {
-                if (code.length % 2 === 0) {
-                    const availableDigits = digits.filter(d => !usedDigits.has(d));
-                    if (availableDigits.length === 0) throw new Error("Ran out of unique digits");
-                    const digit = shuffle(availableDigits)[0];
-                    code += digit;
-                    usedDigits.add(digit);
-                } else {
-                    const availableLetters = letters.filter(l => !usedLetters.has(l));
-                    if (availableLetters.length === 0) throw new Error("Ran out of unique letters");
-                    const letter = shuffle(availableLetters)[0];
-                    code += letter;
-                    usedLetters.add(letter);
-                }
+            // If the code is longer than required (due to a long prefix), truncate it.
+            if (code.length > requiredLength) {
+                code = code.slice(0, requiredLength);
             }
 
             return code;
