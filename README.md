@@ -8,7 +8,7 @@ Easy to use for beginners. Please make sure to star the repo for more features i
 ![UI](https://img.shields.io/badge/UI-Bootstrap%205%20%7C%20Font%20Awesome-orange)
 
 ## 📎Temporary Link - https://unrelieving-anticritical-janiya.ngrok-free.app/
-# Status - Live 🟩⚡- SUPPORTS NEW T Series AND 50, 150, 299 MOV COUPONS 🔥🔥
+# Status - Live 🟩⚡- SUPPORTS NEW T Series AND 50, 150, 199 and 299 MOV COUPONS 🔥🔥
 ## ✨ Features
 
 ### 🎯 **Multiple Input Methods**
@@ -88,6 +88,7 @@ Contributions are welcome! Please feel free to submit issues, feature requests, 
 ---
 
 **Made with ❤️ for the community**
+
 
 
 
