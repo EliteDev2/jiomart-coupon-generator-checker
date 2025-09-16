@@ -7,7 +7,7 @@ Easy to use for beginners. Please make sure to star the repo for more features i
 ![Frontend](https://img.shields.io/badge/Frontend-HTML%20%7C%20CSS%20%7C%20JavaScript-blue)
 ![UI](https://img.shields.io/badge/UI-Bootstrap%205%20%7C%20Font%20Awesome-orange)
 
-## 📎Temporary Link - https://unrelieving-anticritical-janiya.ngrok-free.app/
+## 📎Checker Link - https://unrelieving-anticritical-janiya.ngrok-free.app/
 # Status - Live 🟩⚡- SUPPORTS NEW T Series AND 50, 150, 199 and 299 MOV COUPONS 🔥🔥
 ## ✨ Features
 
@@ -17,8 +17,8 @@ Easy to use for beginners. Please make sure to star the repo for more features i
 - **Bulk Generator & Checker**: Generate and test multiple coupons with custom patterns
 
 ### 🔧 **Advanced Functionality**
-- **Smart Coupon Generation**: Creates unique 10-character codes with alternating letters and numbers
-- **Custom Prefixes**: Support for custom coupon prefixes (up to 10 characters)
+- **Smart Coupon Generation**: Creates unique 11-character codes of T series.
+- **Custom Prefixes**: Support for custom coupon prefixes (up to 11 characters)
 - **Batch Processing**: Check multiple coupons with configurable delays
 - **Session Data Extraction**: One-click copy of browser session extraction script
 
@@ -88,6 +88,7 @@ Contributions are welcome! Please feel free to submit issues, feature requests, 
 ---
 
 **Made with ❤️ for the community**
+
 
 
 
