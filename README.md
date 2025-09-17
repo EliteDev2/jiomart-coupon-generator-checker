@@ -7,7 +7,7 @@ Easy to use for beginners. Please make sure to star the repo for more features i
 ![Frontend](https://img.shields.io/badge/Frontend-HTML%20%7C%20CSS%20%7C%20JavaScript-blue)
 ![UI](https://img.shields.io/badge/UI-Bootstrap%205%20%7C%20Font%20Awesome-orange)
 
-## 📎Checker Link - https://unrelieving-anticritical-janiya.ngrok-free.app/
+## 📎Checker Link - https://pressmail.xyz/jiomart
 # Status - Live 🟩⚡- SUPPORTS NEW T Series AND 50, 150, 199 and 299 MOV COUPONS 🔥🔥
 ## ✨ Features
 
@@ -88,6 +88,7 @@ Contributions are welcome! Please feel free to submit issues, feature requests, 
 ---
 
 **Made with ❤️ for the community**
+
 
 
 
