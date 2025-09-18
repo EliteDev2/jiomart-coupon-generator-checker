@@ -206,17 +206,15 @@
             <!-- Method Selection Tabs -->
             <ul class="nav nav-pills method-tabs justify-content-center" id="methodTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="manual-tab" data-bs-toggle="pill" data-bs-target="#manual" type="button" role="tab">
-                        <i class="fas fa-keyboard"></i> Self Manual checker
-                    </button>
+                    <a class="nav-link" href="/get_session"><i class="fas fa-mobile-alt"></i> Get Session by Mobile (Best Way)</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="session-tab" data-bs-toggle="pill" data-bs-target="#session" type="button" role="tab">
+                    <button class="nav-link" id="session-tab" data-bs-toggle="pill" data-bs-target="#session" type="button" role="tab" >
                         <i class="fas fa-code"></i> Get Session Data
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="generator-tab" data-bs-toggle="pill" data-bs-target="#generator" type="button" role="tab">
+                    <button class="nav-link active" id="generator-tab" data-bs-toggle="pill" data-bs-target="#generator" type="button" role="tab">
                         <i class="fas fa-magic"></i> Bulk Generator & Checker
                     </button>
                 </li>
@@ -224,40 +222,7 @@
 
             <div class="tab-content" id="methodTabsContent">
                 <!-- Manual Entry Tab -->
-                <div class="tab-pane fade show active" id="manual" role="tabpanel">
-                    <div class="form-section">
-                        <h4 class="mb-4"><i class="fas fa-edit"></i> Enter Your Details</h4>
-                        <form id="manualForm">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">User ID</label>
-                                <input type="text" class="form-control" id="manualUserId" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Auth Token</label>
-                                <input type="text" class="form-control" id="manualAuthToken" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Cart ID</label>
-                                <input type="text" class="form-control" id="manualCartId" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">PIN Code</label>
-                                <input type="text" class="form-control" id="manualPin" required placeholder="Enter your PIN code">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Coupon Codes (one per line)</label>
-                                <textarea class="form-control" id="manualCouponCode" rows="3" required placeholder="Enter one or more coupon codes, each on a new line"></textarea>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary w-100">
-                                    <i class="fas fa-search"></i> Check Coupon
-                                </button>
-                            </div>
-                        </div>
-                        </form>
-                    </div>
-                </div>
+                <div class="tab-pane fade" id="manual" role="tabpanel"></div>
 
                 <!-- Session Data Tab -->
                 <div class="tab-pane fade" id="session" role="tabpanel">
@@ -333,7 +298,7 @@
                 </div>
 
                 <!-- Generator & Checker Tab -->
-                <div class="tab-pane fade" id="generator" role="tabpanel">
+                <div class="tab-pane fade show active" id="generator" role="tabpanel">
                     <div class="form-section">
                         <h4 class="mb-4"><i class="fas fa-magic"></i> Generate & Check Multiple Coupons</h4>
                         
@@ -345,7 +310,7 @@
                                 <label class="btn btn-outline-primary" for="generatorManual">Manual Entry</label>
                                 
                                 <input type="radio" class="btn-check" name="generatorInputMethod" id="generatorSession" value="session">
-                                <label class="btn btn-outline-primary" for="generatorSession">Session Data</label>
+                                <label class="btn btn-outline-primary" for="generatorSession">Session Data JSON (Easy Recommended)</label>
                             </div>
                         </div>
 
@@ -375,6 +340,7 @@
                         <div id="generatorSessionInput" style="display: none;">
                             <div class="mb-3">
                                 <label class="form-label">Paste Session Data (JSON):</label>
+                                <label class="form-label">Dont have session data ? use <a href="/get_session">Get Session by Mobile</a></label>
                                 <textarea class="form-control" id="genSessionData" rows="4" placeholder='Paste the JSON output from the session script here'></textarea>
                             </div>
                         </div>
@@ -383,7 +349,7 @@
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">How many coupons to generate?</label>
-                                <input type="number" class="form-control" id="couponCount" value="10" min="1" max="50">
+                                <input type="number" class="form-control" id="couponCount" value="10" min="1" max="100">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Optional Prefix (≤ 11 chars)</label>
@@ -509,31 +475,6 @@
             row.cells[2].innerHTML = originalMessage;
         }
 
-        // Manual form submission
-        document.getElementById('manualForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const userId = document.getElementById('manualUserId').value.trim();
-            const authToken = document.getElementById('manualAuthToken').value.trim();
-            const cartId = document.getElementById('manualCartId').value.trim();
-            const pin = document.getElementById('manualPin').value.trim();
-            const couponCodesText = document.getElementById('manualCouponCode').value.trim();
-            
-            if (!userId || !authToken || !cartId || !pin || !couponCodesText) {
-                showResult('error', 'Please fill in all fields');
-                return;
-            }
-            
-            const coupons = couponCodesText.split('\n').map(c => c.trim()).filter(c => c);
-            if (coupons.length === 0) {
-                showResult('error', 'Please enter at least one coupon code.');
-                return;
-            }
-
-            const userData = { userid: userId, authtoken: authToken, cart_id: cartId, pin: pin };
-            await processCoupons(coupons, userData);
-        });
-
         // Session form submission
         document.getElementById('sessionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -628,6 +569,7 @@
                     await showCountdown(nextRow, 12);
                 }
             }
+            
             // Sort the table rows
             const rows = Array.from(tableBody.rows);
             const statusOrder = {

@@ -11,7 +11,6 @@ Easy to use for beginners. Please make sure to star the repo for more features i
 ## ✨ Features
 
 ### 🎯 **Multiple Input Methods**
-- **Single Manual Checker**: Direct entry of credentials for quick coupon validation
 - **Session Data Parser**: Automatic extraction from browser session data
 - **Bulk Generator & Checker**: Generate and test multiple coupons with custom patterns
 
@@ -31,17 +30,13 @@ Easy to use for beginners. Please make sure to star the repo for more features i
 
 ## 🚀 **How to Use**
 
-### **Method 1: Self Manual Checker**
-1. Navigate to the "Single Manual Checker" tab
-2. Enter your JioMart credentials:
-   - User ID
-   - Auth Token
-   - Cart ID
-   - PIN Code
-3. Enter the coupon code list you want to test
-4. Click "Check Coupons" and get instant results
+### **Method 1: Get Session Through Mobile - EASY RECOMMENDED🟩⚡ **
+1. Navigate to the " Get Session by Mobile (Best Way)" tab
+2. Enter your JioMart Mobile Number and follow instructions.
+3. Copy the Session Json.
+4. paste session JSON data in Session data input method and start checking.
 
-### **Method 2: Session Data Parser - EASY RECOMMENDED 🟩⚡**
+### **Method 2: Session Data Parser - 🟩⚡**
 1. Go to the "Get Session Data" tab
 2. Follow the simple steps:
    - Visit [JioMart Cart Page](https://www.jiomart.com/checkout/cart)
@@ -56,7 +51,7 @@ Easy to use for beginners. Please make sure to star the repo for more features i
 1. Switch to the "Bulk Generator & Checker" tab
 2. Choose your input method (Manual data entry or Session Json Data)
 3. Configure your preferences:
-   - Number of coupons to generate (1-50)
+   - Number of coupons to generate (1-100)
    - Optional custom prefix
 4. Click "Generate & Check Coupons"
 5. Watch real-time results as each coupon is processed
